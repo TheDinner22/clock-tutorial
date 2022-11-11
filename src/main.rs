@@ -22,11 +22,11 @@ fn main() {
 
         for row in &DIGITS {
             for c in time.chars() {
-                let col = match c {
-                    '0'..='9' => c as usize - '0' as usize,
+                let col: usize = match c {
+                    '0'..='9' => c.to_digit(10).unwrap(),
                     ':' => 10,
                     _ => panic!(" got some other char I was not expecting")
-                };
+                }.try_into().unwrap();
                 print!("{} ", row[col]);
             }
             println!();
