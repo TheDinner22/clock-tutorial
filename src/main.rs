@@ -13,7 +13,6 @@ const DIGITS : [[&str; 11]; 7] = [
 
 fn main() {
     loop {
-        print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
         // time object with date and time and all that
         let t = Local::now();
 
@@ -22,11 +21,12 @@ fn main() {
 
         for row in &DIGITS {
             for c in time.chars() {
-                let col = match c {
-                    '0'..='9' => c as usize - '0' as usize,
+                let col: usize = match c {
+                    '0'..='9' => c.to_digit(10).unwrap(),
                     ':' => 10,
-                    _ => panic!(" got some other char I was not expecting")
-                };
+                    _ => panic!("got some other char I was not expecting")
+                }.try_into().unwrap(); // these two convert u32 from match into usize for indexing
+
                 print!("{} ", row[col]);
             }
             println!();
@@ -37,3 +37,17 @@ fn main() {
         std::thread::sleep(std::time::Duration::from_millis(sleep));
     }
 }
+
+// fn main(){ // here i am testing why - '0' as usize is not the same as subtracting 0
+//     let s = String::from("123456789");
+
+//     for c in s.chars() {
+//         println!("normal char:{} | char as usize:{} | char as usize minus zero:{}",
+//             c,
+//             c as usize,
+//             c as usize - '0' as usize
+//         );
+
+//         println!("{}", '0' as usize);
+//     }
+// }
