@@ -13,7 +13,7 @@ const DIGITS : [[&str; 11]; 7] = [
 
 fn main() {
     loop {
-        print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+        // print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
         // time object with date and time and all that
         let t = Local::now();
 
